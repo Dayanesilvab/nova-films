@@ -99,12 +99,12 @@ function Inicio() {
       {/* Cenário: os dois vídeos emendados cobrem o topo inteiro */}
       <div className="hero-cenario" aria-hidden="true">
         {/* Rocha e fumaça onde o drone paira antes de descer */}
-        <img className="rocha-esq" src="assets/rocha-esq.webp" alt="" />
+        <img className="hero-terreno" src="assets/cenario-unificado.webp" alt="" />
+        <div className="camera-sombra" aria-hidden="true"></div>
         {/* Fumaça em movimento passando pelas rochas do topo */}
         <div className="hero-fumaca"><i></i><i></i></div>
         {/* Palco da câmera 3D do topo (parada); a câmera é desenhada em src/three/Camera3D.jsx */}
         <div className="cam-hero" id="cam-hero">
-          <img className="cam-rocha" src="assets/rocha.webp" alt="" />
           <img className="espera espera-camera" src="assets/espera-camera.webp" alt="" />
         </div>
       </div>

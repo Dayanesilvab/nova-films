@@ -634,3 +634,25 @@ body { background:#070809; }
 .fumaca i+i,.hero-fumaca i+i { animation-name:nevoa-suave; animation-duration:55s; animation-direction:alternate-reverse; background-size:auto; }
 @keyframes nevoa-suave { from { transform:translate3d(-5%,3%,0); } to { transform:translate3d(5%,-2%,0); } }
 @media (prefers-reduced-motion:reduce) { .fumaca i,.hero-fumaca i { animation:none; } }
+
+/* Um único piso e um único horizonte para os dois equipamentos. */
+.hero-terreno {
+  position:absolute; left:0; top:14vh; width:100%; height:auto; aspect-ratio:3/1;
+  max-width:none; object-fit:cover; pointer-events:none; opacity:.86;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 20%, #000 87%, transparent 100%);
+          mask-image:linear-gradient(to bottom, transparent 0%, #000 20%, #000 87%, transparent 100%);
+}
+.camera-sombra {
+  position:absolute; right:10%; top:calc(14vh + 20.8vw); width:25vw; height:2.6vw;
+  background:radial-gradient(ellipse, #000b 0%, #0007 35%, transparent 72%);
+  pointer-events:none; filter:blur(5px); opacity:.8;
+}
+.hero-fumaca { top:calc(14vh + 15vw); height:8vw; opacity:.22; }
+@media (max-width:760px) {
+  .hero { min-height:780px; padding-top:350px; padding-bottom:110px; }
+  .vaga-drone { top:82px; left:-4vw; width:64vw; }
+  .cam-hero { top:115px; right:0; bottom:auto; width:50vw; }
+  .hero-terreno { top:20px; height:330px; aspect-ratio:auto; object-fit:cover; object-position:72% 50%; }
+  .camera-sombra { top:223px; right:3%; width:42vw; height:18px; }
+  .hero-fumaca { top:200px; height:95px; opacity:.18; }
+}
