@@ -656,3 +656,7 @@ body { background:#070809; }
   .camera-sombra { top:223px; right:3%; width:42vw; height:18px; }
   .hero-fumaca { top:200px; height:95px; opacity:.18; }
 }
+
+.camera-sombra { top:calc(14vh + 20.1vw); right:10.5%; width:24vw; height:2vw; background:radial-gradient(ellipse,#000e 0%,#000b 28%,#0005 52%,transparent 74%); filter:blur(2px); opacity:1; }
+.camera-sombra::after { content:''; position:absolute; inset:12% -18% -70% 12%; background:radial-gradient(ellipse,#0008,transparent 70%); transform:skewX(-25deg); filter:blur(5px); }
+@media(max-width:760px) { .camera-sombra { top:221px; right:4%; width:40vw; height:13px; } }

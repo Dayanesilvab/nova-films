@@ -121,7 +121,14 @@ export default function Camera3D({ parado }) {
       if (o.isMesh) {
         o.frustumCulled = false
         if (o.material) {
-          o.material.envMapIntensity = 1.5
+          o.material = o.material.clone()
+          o.material.envMapIntensity = 0.65
+          if (o.material.normalScale) o.material.normalScale.set(1.25, 1.25)
+          if (o.material.name === 'Camara_material') {
+            o.material.metalness = 0.12
+            o.material.roughness = 0.78
+            o.material.envMapIntensity = 0.45
+          }
           // Vidro sem "transmissão": ela obriga a desenhar a cena duas vezes por quadro (pesa no celular e
           // pode falhar em algumas placas de vídeo, o que apagaria o drone também). Fica um vidro tingido simples.
           if (o.material.transmission > 0) {
@@ -130,10 +137,10 @@ export default function Camera3D({ parado }) {
             o.material.depthWrite = false
             // O vidro do arquivo é alaranjado; aqui vira um vidro escuro com reflexo azulado (lente tratada)
             o.material.color.set('#0a1018')
-            o.material.opacity = 0.78
-            o.material.roughness = 0.04
-            o.material.metalness = 0.85
-            o.material.envMapIntensity = 2.4
+            o.material.opacity = 0.28
+            o.material.roughness = 0.12
+            o.material.metalness = 0.08
+            o.material.envMapIntensity = 0.65
           }
         }
       }
@@ -194,11 +201,11 @@ export default function Camera3D({ parado }) {
     if (import.meta.env.DEV && window.__escala) raiz.current.scale.multiplyScalar(window.__escala) // depuração
     // Atitude: de três quartos (no topo, virada para o centro da página), acompanhando o mouse
     const g = giro.current
-    const lado = noTopo ? -0.5 : 0.55
+    const lado = noTopo ? -0.65 : 0.55
     // No topo ela é estática (apoiada na rocha): sem mouse e sem balanço
     const mx = noTopo ? 0 : mouse.x, my = noTopo ? 0 : mouse.y, bal = noTopo ? 0 : 1
     g.rotation.y = THREE.MathUtils.damp(g.rotation.y, lado + mx * 0.45 + Math.sin(t * 0.4) * 0.05 * bal, 4, dt)
-    g.rotation.x = THREE.MathUtils.damp(g.rotation.x, (noTopo ? 0.05 : 0.12) + my * 0.12, 4, dt)
+    g.rotation.x = THREE.MathUtils.damp(g.rotation.x, (noTopo ? 0.12 : 0.12) + my * 0.12, 4, dt)
 
     // "Foto": na seção Câmera, quando ela aparece, a lente fecha e abre; repete a cada CICLO segundos
     const centroNaTela = !noTopo && r.top < size.height * 0.72 && r.bottom > size.height * 0.28
