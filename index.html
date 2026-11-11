@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOVA FILMS — Capturando o extraordinário</title>
+  <meta name="description" content="NOVA FILMS — produtora audiovisual. Filmagem aérea com drone, vídeo e fotografia com precisão cinematográfica.">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" type="image/webp" href="/assets/logo-v2.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Filtro que tira o tom azulado do vídeo do drone (mantém as luzes vermelhas) -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <filter id="sem-azul" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 1 0 0 0
+        0 0 0 1 0"/>
+    </filter>
+  </svg>
+  <div id="raiz"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
