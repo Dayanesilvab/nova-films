@@ -125,9 +125,17 @@ export default function Camera3D({ parado }) {
           o.material.envMapIntensity = 0.65
           if (o.material.normalScale) o.material.normalScale.set(1.25, 1.25)
           if (o.material.name === 'Camara_material') {
-            o.material.metalness = 0.12
-            o.material.roughness = 0.78
-            o.material.envMapIntensity = 0.45
+            const corpoMaterial = o.material
+            corpoMaterial.metalness = 0
+            corpoMaterial.roughness = 1
+            corpoMaterial.normalScale.set(0.88, 0.88)
+            corpoMaterial.envMapIntensity = 0.75
+            // Mantém a variação do mapa original dentro da faixa de polímero e borracha.
+            corpoMaterial.onBeforeCompile = (shader) => {
+              shader.fragmentShader = shader.fragmentShader
+                .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = mix(0.49, 0.93, roughnessFactor);')
+                .replace('#include <map_fragment>', '#include <map_fragment>\ndiffuseColor.rgb = diffuseColor.rgb * 0.89 + vec3(0.0055, 0.0058, 0.006);')
+            }
           }
           // Vidro sem "transmissão": ela obriga a desenhar a cena duas vezes por quadro (pesa no celular e
           // pode falhar em algumas placas de vídeo, o que apagaria o drone também). Fica um vidro tingido simples.
@@ -156,6 +164,22 @@ export default function Camera3D({ parado }) {
     const centro = caixa.getCenter(new THREE.Vector3())
     const dim = caixa.getSize(new THREE.Vector3())
 
+    // A borda usinada e o vidro convexo dão espessura à frente da objetiva.
+    const aro = new THREE.MeshStandardMaterial({ color: '#242529', metalness: 0.76, roughness: 0.36 })
+    for (const [raio, espessura, recuo] of [[0.638, 0.010, 0.018], [0.653, 0.009, 0.005], [0.670, 0.012, -0.015]]) {
+      const anel = new THREE.Mesh(new THREE.TorusGeometry(raio, espessura, 8, 96), aro)
+      anel.position.z = FRENTE_LENTE + recuo
+      lente.add(anel)
+    }
+    const cristal = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 64, 24, 0, Math.PI * 2, 0, Math.PI / 2),
+      new THREE.MeshPhysicalMaterial({ color: '#172831', roughness: 0.065, metalness: 0.12, clearcoat: 1, clearcoatRoughness: 0.09, transparent: true, opacity: 0.22, depthWrite: false })
+    )
+    cristal.geometry.rotateX(Math.PI / 2)
+    cristal.scale.set(0.62, 0.62, 0.067)
+    cristal.position.z = FRENTE_LENTE + 0.019
+    cristal.renderOrder = 5
+    lente.add(cristal)
     const iris = criarDiafragma()
     lente.add(iris)
     const clarao = criarClarao()
